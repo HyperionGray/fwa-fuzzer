@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+FWA/.vs/FWA/v16/Browse.VC.opendb
 # C extensions
 *.so
 

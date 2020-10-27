@@ -4,6 +4,7 @@ import win32api
 import win32file
 import codecs
 import argparse
+from bitstring import BitArray
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The file to mutate", required = True)
 parser.add_argument("-a", "--arch", help="The file's architecture, x86 or x64'", required = True)
@@ -19,22 +20,10 @@ def file_attributes(arch):
 
     raise Exception("Architecture not supported")
 
-def bytes_from_file_iter(filename, chunksize=8192):
-    with open(filename, "rb") as f:
-        while True:
-            chunk = f.read(chunksize)
-            if chunk:
-                for b in chunk:
-                    yield b
-            else:
-                break
-
 def main():
-
     file_attributes(args.arch)
-    for _byte in bytes_from_file_iter(args.file):
-        print(hex(_byte))
-
+    _f = open(args.file).read()
+    ' '.join(format(ord(x), 'b') for x in _f)
 
 
 if __name__ == "__main__":

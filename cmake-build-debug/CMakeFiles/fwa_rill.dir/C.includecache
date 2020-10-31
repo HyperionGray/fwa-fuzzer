@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Garrett McParrot/CLionProjects/fwa-rill/fwa.h
+
+C:/Users/Garrett McParrot/CLionProjects/fwa-rill/main.c
+stdio.h
+-
+fwa.h
+C:/Users/Garrett McParrot/CLionProjects/fwa-rill/fwa.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+process.h
+-
+time.h
+-
+limits.h
+-
+

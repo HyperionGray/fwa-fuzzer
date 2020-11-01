@@ -5,8 +5,7 @@
 #define FWA_RILL_FWA_H
 
 
-
-
+int mutate(char *mutate_file, int max_mutate);
 
 
 #endif //FWA_RILL_FWA_H

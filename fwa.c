@@ -21,7 +21,6 @@ FILE *read_file_to_memory(const char *filename) {
     return f_buffer;
 }
 
-
 //return between 0 and 1, results here will be used as percent
 //of file to mutate
 float random_percent() {
@@ -60,7 +59,7 @@ int random_file_position(filesize) {
     return rand() % (filesize + 1);
 }
 
-FILE *mutate(char *mutate_file) {
+int mutate(char *mutate_file, int max_mutate) {
     FILE *_file = read_file_to_memory(mutate_file);
     float percent_to_mutate = random_percent();
     float mutate_or_not = random_percent();
@@ -74,7 +73,7 @@ FILE *mutate(char *mutate_file) {
     printf("Bytes that will change: %d\n", num_bytes_to_change);
 
     int i = 0;
-    while(i < num_bytes_to_change) {
+    while(i < num_bytes_to_change && i < max_mutate) {
         int byte = random_byte();
         int position = random_file_position(filesize);
         i = i + 1;
@@ -83,25 +82,40 @@ FILE *mutate(char *mutate_file) {
 
         fseek(_file, position, SEEK_SET);
         fwrite((unsigned char *) byte, 1, 1, _file);
+
     }
-    return _file;
+    errno_t err = fopen_s( &_file, (char *) i, "w" );
+
+    if (err != 0) {
+        perror("Failed to write file.");
+    };
+
+    return 0;
 }
 
-int main() {
-    int iterations = 1000;
+/*
+int main(int argc, char *argv[]) {
+    int num_mutated_files = 1000;
     int i = 0;
-    char *filename;
+    char srcfilename[256] = "to_mutate/CMakeLists.txt";
     errno_t err;
-    FILE *_file;
-    filename = 
+    errno_t errs;
+    char to_mutate_dir[] = "to_mutate/";
 
-    while (i < iterations) {
-        _file = mutate(filename);
-        err = fopen_s( &_file, (char *) i, "w" );
+    while (i < num_mutated_files) {
+        char *ic = (char *) i;
+
+        //filename has max of 200
+        errs = strncat_s(to_mutate_dir, 256, ic, 200);
+        if (errs != 0) {
+            perror("Could not create string for outfilename");
+        }
+        FILE *_file = mutate(srcfilename, 10);
+        err = fopen_s( &_file, to_mutate_dir, "w" );
         if (err != 0)
         {
-            perror("");
+            perror("Could not write file");
         }
         i++;
     }
-}
+}*/
